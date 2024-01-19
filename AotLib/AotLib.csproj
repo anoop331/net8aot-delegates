@@ -6,5 +6,6 @@
 	 <PublishAot>true</PublishAot>
 	  <InvariantGlobalization>true</InvariantGlobalization>
 	  <AssemblyName>aotlib</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>
