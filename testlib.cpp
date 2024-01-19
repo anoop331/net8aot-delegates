@@ -7,14 +7,17 @@
 
 
 int add(int x, int y);
-void callDelegate();
+int longRunningProcess();
 
-extern "C" void MyCppFunction(int value)
+extern "C" void progressCallBack(int value)
 {
-    std::cout << "Called from C#: " << value << std::endl;
+    std::cout << "The progress is: " << value << std::endl;
+    if(value == 100){
+         std::cout << "All done!" << std::endl;
+    }
 }
 
-typedef void (*CallCppDelegateFunction)(void (*)(int));
+
 
 int main(int argc, char** argv)
 {
@@ -23,7 +26,7 @@ int main(int argc, char** argv)
     // std::cout << "Sum of 2 and 8 is " << result <<  std::endl;
 
     std::cout << "Starting up" << std::endl;
-    callDelegate();
+    auto result = longRunningProcess();
     std::cout << "Done with calling the delegate "  <<  std::endl;
 
     
@@ -40,28 +43,29 @@ int add(int x, int y)
     return result;
 }
 
-void callDelegate(){
+int longRunningProcess(){
     auto handle =  dlopen("./aotlib.so", RTLD_LAZY);
     if (!handle) {
         std::cerr << "Failed to load the library" << std::endl;
-        return;
+        return -1;
     }
 
     // Get the function address
-    auto callCppDelegate = (CallCppDelegateFunction)dlsym(handle, "CallCppDelegate");
+    typedef int (*LongRunningProcessFunc)(int, void (*)(int));
+    auto longRunningProcessFuncHandle = (LongRunningProcessFunc)dlsym(handle, "longRunningProcess");
 
     const char* dlsym_error = dlerror();
 
     if (dlsym_error) {
         std::cerr << "Cannot load symbol 'CallCppDelegate': " << dlsym_error << std::endl;
         dlclose(handle);
-        return;
+        return -1;
     }
 
     // Call the function with a C++ function as a delegate
-    callCppDelegate(MyCppFunction);
+    auto result = longRunningProcessFuncHandle(10,progressCallBack);
 
     dlclose(handle);
-    return;
+    return result;
 
 }

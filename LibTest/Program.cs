@@ -8,11 +8,25 @@ namespace LibTest
         {
 
             Console.WriteLine("$Starting up the DLL interop");
-            var result = add(1, 8);
-            Console.WriteLine($"The sume of 1 and 8 is {result}");
+
+            var callback = new ProgressCallBackkDelegate(OnProgressChange);
+            var result = longRunningProcess(10,callback);            
+            
         }
+
+        public static void OnProgressChange(int value)
+        {
+            Console.WriteLine($"The progress is : {value} %");
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void ProgressCallBackkDelegate(int value);
+
 
         [DllImport("aotlib.so")]
         public static extern int add(int x, int y);
+
+        [DllImport("aotlib.so")]
+        public static extern int longRunningProcess(int x, ProgressCallBackkDelegate  callback);
     }
 }

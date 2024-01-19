@@ -10,19 +10,20 @@ public static class NativeEntryPoints
     {
         return x + y;
     }
+    
+    // public static unsafe delegate* unmanaged[Cdecl]<int, void> CppCallback;
 
-    // [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    // public delegate void CppCallback(int value);
-
-    public static unsafe delegate* unmanaged[Cdecl]<int, void> CppCallback;
-
-    [UnmanagedCallersOnly(EntryPoint = "CallCppDelegate")]
-    public static unsafe void CallCppDelegate(delegate* unmanaged[Cdecl]<int, void> cppCallback)
+    [UnmanagedCallersOnly(EntryPoint = "longRunningProcess")]
+    public static unsafe int RunLongRunningProcess(int input, delegate* unmanaged[Cdecl]<int, void> callback)
     {
-        if (cppCallback != null)
-        {
-            cppCallback(100); // Example argument
+
+        for(var i=0; i < input; i++){
+            var percentage = (int)(i * 100/ input);
+            callback(percentage);
+            System.Threading.Thread.Sleep(2000);
         }
+
+        return 0;
     }
 
 }
