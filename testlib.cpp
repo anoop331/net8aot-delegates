@@ -9,6 +9,14 @@
 int add(int x, int y);
 int longRunningProcess();
 
+
+struct ReturnValue{
+    int success;
+    int totalSeconds;   
+};
+
+
+
 extern "C" void progressCallBack(int value)
 {
     std::cout << "The progress is: " << value << std::endl;
@@ -16,6 +24,20 @@ extern "C" void progressCallBack(int value)
          std::cout << "All done!" << std::endl;
     }
 }
+
+
+extern "C" void doneCallBack(ReturnValue value)
+{    
+
+     std::cout << "Native call back" << std::endl;
+
+    if(value.success == 1){
+         std::cout << "Native: The operation was sucessful" <<  std::endl;
+    }else{
+        std::cout << "Something went wrong" <<  std::endl;
+    }
+}
+
 
 
 
@@ -51,7 +73,7 @@ int longRunningProcess(){
     }
 
     // Get the function address
-    typedef int (*LongRunningProcessFunc)(int, void (*)(int));
+    typedef int (*LongRunningProcessFunc)(int, void (*)(int),void (*)(ReturnValue));
     auto longRunningProcessFuncHandle = (LongRunningProcessFunc)dlsym(handle, "longRunningProcess");
 
     const char* dlsym_error = dlerror();
@@ -63,7 +85,12 @@ int longRunningProcess(){
     }
 
     // Call the function with a C++ function as a delegate
-    auto result = longRunningProcessFuncHandle(10,progressCallBack);
+    auto result = longRunningProcessFuncHandle(10,progressCallBack,doneCallBack);
+
+    std::cout <<"Waiting for the task to complete, if you enter any key, the program will exit" << std::endl;
+
+    char * input;
+    std::cin >> input;  
 
     dlclose(handle);
     return result;

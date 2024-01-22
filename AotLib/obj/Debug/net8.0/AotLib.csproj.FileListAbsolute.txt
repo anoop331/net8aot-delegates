@@ -1,0 +1,12 @@
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/AotLib.GeneratedMSBuildEditorConfig.editorconfig
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/AotLib.AssemblyInfoInputs.cache
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/AotLib.AssemblyInfo.cs
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/AotLib.csproj.CoreCompileInputs.cache
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/AotLib.sourcelink.json
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/bin/Debug/net8.0/aotlib.deps.json
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/bin/Debug/net8.0/aotlib.dll
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/bin/Debug/net8.0/aotlib.pdb
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/aotlib.dll
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/refint/aotlib.dll
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/aotlib.pdb
+/home/repos/anoop/netaot/net8aot-delegates/AotLib/obj/Debug/net8.0/ref/aotlib.dll
