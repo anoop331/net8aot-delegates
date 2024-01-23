@@ -25,7 +25,7 @@ public static class NativeEntryPoints
     {
 
         LongRunningOperationAsync(input,ProgressCallBack).ContinueWith(x => {
-            Console.WriteLine($"NativeEntryPoint.SwdlAsync->Done callback");
+            Console.WriteLine($"NativeEntryPoint.longrunningproc->Done callback");
             var result = x.Result;
             doneCallBack(result);
         });
