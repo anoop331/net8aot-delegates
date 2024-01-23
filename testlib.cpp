@@ -33,7 +33,7 @@ extern "C" void doneCallBack(ReturnValue value)
      std::cout << "Native call back" << std::endl;
 
     if(value.success == 1){
-         std::cout << "Native: The operation was sucessful" <<  std::endl;
+         std::cout << "Native: The operation was sucessful with message " << value.message << std::endl;
     }else{
         std::cout << "Something went wrong" <<  std::endl;
     }
