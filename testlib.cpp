@@ -12,7 +12,8 @@ int longRunningProcess();
 
 struct ReturnValue{
     int success;
-    int totalSeconds;   
+    int totalSeconds;  
+    char* message; 
 };
 
 

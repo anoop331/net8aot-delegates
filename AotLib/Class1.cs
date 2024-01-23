@@ -5,6 +5,7 @@ namespace AotLib;
 public struct ReturnValue{
     public int success;
     public int totalSeconds;
+    public IntPtr message;
     
 }
 
@@ -68,7 +69,7 @@ public static class NativeEntryPoints
             for(var i=0; i < input; i++)
             {
                 var percentage = (int)(i * 100/ input);
-                callback(percentage);
+                progressCallBack(percentage);
                 await Task.Delay(2000);    
             }            
 
@@ -76,7 +77,8 @@ public static class NativeEntryPoints
 
             var result = new ReturnValue{
                 success = 1,
-                totalSeconds = 300
+                totalSeconds = 300,
+                message = Marshal.StringToHGlobalAnsi("all good")
             };           
             
             

@@ -6,6 +6,7 @@ namespace LibTest
     public struct ReturnValue{
         public int success;
         public int totalSeconds;
+        public IntPtr message;
         
     }
 
@@ -27,7 +28,7 @@ namespace LibTest
 
         public static void onDoneCallBack(ReturnValue value)
         {
-            Console.WriteLine($"Swdl done and it is : {(value.success == 1 ? "Successful":"Failure")} and it took {value.totalSeconds} seconds");
+            Console.WriteLine($"Swdl done and it is : {(value.success == 1 ? "Successful":"Failure")} and it took {value.totalSeconds} seconds with message {Marshal.PtrToStringAnsi(value.message)}");
         }
 
 
