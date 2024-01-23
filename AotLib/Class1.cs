@@ -23,29 +23,67 @@ public static class NativeEntryPoints
     public static unsafe int RunLongRunningProcess(int input, delegate* unmanaged[Cdecl]<int, void> callback, delegate* unmanaged[Cdecl]<ReturnValue, void> doneCallBack)
     {
 
-        Task.Run(() => {
-             for(var i=0; i < input; i++){
-            var percentage = (int)(i * 100/ input);
-            callback(percentage);
-           Thread.Sleep(2000);
+        LongRunningOperationAsync(input,ProgressCallBack).ContinueWith(x => {
+            Console.WriteLine($"NativeEntryPoint.SwdlAsync->Done callback");
+            var result = x.Result;
+            doneCallBack(result);
+        });
+
+         void ProgressCallBack(int x)
+        {
+            callback(x);
         }
-
-        Console.WriteLine($"AotLib: All done, calling the native call back");
-
-        var result = new ReturnValue{
-            success = 1,
-            totalSeconds = 300
-        };
-
-        
-        doneCallBack(result);
-        
-        Console.WriteLine($"AotLib: Done with calling the native call back");
-
-        }) ;      
 
         return 0;
 
+        // Task.Run(() => {
+        //      for(var i=0; i < input; i++){
+        //     var percentage = (int)(i * 100/ input);
+        //     callback(percentage);
+        //    Thread.Sleep(2000);
+        // }
+
+        // Console.WriteLine($"AotLib: All done, calling the native call back");
+
+        // var result = new ReturnValue{
+        //     success = 1,
+        //     totalSeconds = 300
+        // };
+
+        
+        // doneCallBack(result);
+        
+        // Console.WriteLine($"AotLib: Done with calling the native call back");
+
+        // }) ;      
+
+        // return 0;
+
+    }
+
+
+    private static async Task<ReturnValue> LongRunningOperationAsync(int input, Action<int> progressCallBack)
+    {
+         
+            for(var i=0; i < input; i++)
+            {
+                var percentage = (int)(i * 100/ input);
+                callback(percentage);
+                await Task.Delay(2000);    
+            }            
+
+            Console.WriteLine($"AotLib: All done, calling the native call back");
+
+            var result = new ReturnValue{
+                success = 1,
+                totalSeconds = 300
+            };           
+            
+            
+            Console.WriteLine($"AotLib: Done with calling the native call back");
+
+            return result;
+            
     }
 
 }
